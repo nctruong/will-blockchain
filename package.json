@@ -1,0 +1,28 @@
+{
+  "name": "will-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watchAll",
+    "dev-test": "nodemon dev-test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nctruong/will-blockchain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nctruong/will-blockchain/issues"
+  },
+  "homepage": "https://github.com/nctruong/will-blockchain#readme",
+  "devDependencies": {
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  }
+}
