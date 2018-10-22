@@ -19,8 +19,19 @@ class Transaction {
             { amount: Transaction._subtractSenderAmount(senderWallet, amount), address: senderWallet.publicKey }, // subtract sender's amount
             { amount, address: recipient }
         ])
-
+        Transaction.signTransaction(transaction, senderWallet);
         return transaction;
+    }
+
+    static signTransaction(transaction, senderWallet) {
+        // state before transaction
+        transaction.input = {
+            timestamp: Date.now(),
+            amount: senderWallet.balance,
+            address: senderWallet.publicKey,
+            signature: senderWallet.sign(ChainUtil.hash(transaction.outputs)) 
+            // elliptic helps to make a signature which is the combination of (one-way-hash + privateKey) 
+        }
     }
 
     static _subtractSenderAmount(senderWallet, amount){
