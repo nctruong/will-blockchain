@@ -25,6 +25,7 @@ class Transaction {
 
     static signTransaction(transaction, senderWallet) {
         // state before transaction
+        // why do we store signature in input?
         transaction.input = {
             timestamp: Date.now(),
             amount: senderWallet.balance,
@@ -32,6 +33,16 @@ class Transaction {
             signature: senderWallet.sign(ChainUtil.hash(transaction.outputs)) 
             // elliptic helps to make a signature which is the combination of (one-way-hash + privateKey) 
         }
+    }
+
+
+    static verifyTransaction(transaction) {
+        // delegate
+        return ChainUtil.verifySignature(
+            transaction.input.address, 
+            transaction.input.signature, 
+            ChainUtil.hash(transaction.outputs)
+        )
     }
 
     static _subtractSenderAmount(senderWallet, amount){
