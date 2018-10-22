@@ -3,8 +3,23 @@ const ChainUtil = require('../chain-util');
 class Transaction {
     constructor(){
         this.id = ChainUtil.id();
-        this.input = null;
-        this.outputs = [];
+        this.input = null; // like BEFORE
+        this.outputs = []; // like AFTER
+    }
+
+    update(senderWallet, recipient, amount) {
+        const senderOutput = this.outputs.find(output => output.address == senderWallet.publicKey);
+
+        if (amount > senderOutput.amount) {
+            console.log(`Amount: ${amount} exceeds balance.`);
+            return;
+        }
+
+        senderOutput.amount = senderOutput.amount - amount;
+        this.outputs.push({ amount, address: recipient });
+        Transaction.signTransaction(this, senderWallet);
+
+        return this;
     }
 
     static newTransaction(senderWallet, recipient, amount) {
@@ -26,6 +41,7 @@ class Transaction {
     static signTransaction(transaction, senderWallet) {
         // state before transaction
         // why do we store signature in input?
+        // input is hash but outputs is array
         transaction.input = {
             timestamp: Date.now(),
             amount: senderWallet.balance,
